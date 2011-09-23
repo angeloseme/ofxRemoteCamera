@@ -9,7 +9,7 @@
 	<add>
 		<src>
 			<folder name="addons/ofxRemoteCamera/src">
-				<file>../../../addons/ofxRemoteCamera/src/ofxRemoteCameraUtil.h</file>
+				<file>../../../addons/ofxRemoteCamera/src/ofxRemoteCameraManager.h</file>
 				<file>../../../addons/ofxRemoteCamera/src/ofxRemoteCameraClient.h</file>
 				<file>../../../addons/ofxRemoteCamera/src/ofxRemoteCameraClient.cpp</file>
 				<file>../../../addons/ofxRemoteCamera/src/ofxRemoteCameraServer.h</file>
