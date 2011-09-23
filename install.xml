@@ -1,0 +1,31 @@
+<install>
+	<name>ofxRemoteCamera</name>
+	<version>0.01</version>
+	<author>Angelo Semeraro</author>
+	<url></url>
+	<requires>ofxNetwork</requires>
+	<requires>ofxXmlSettings</requires>
+	<requires>ofxOpenCv</requires>
+	<add>
+		<src>
+			<folder name="addons/ofxRemoteCamera/src">
+				<file>../../../addons/ofxRemoteCamera/src/ofxRemoteCameraUtil.h</file>
+				<file>../../../addons/ofxRemoteCamera/src/ofxRemoteCameraClient.h</file>
+				<file>../../../addons/ofxRemoteCamera/src/ofxRemoteCameraClient.cpp</file>
+				<file>../../../addons/ofxRemoteCamera/src/ofxRemoteCameraServer.h</file>
+				<file>../../../addons/ofxRemoteCamera/src/ofxRemoteCameraServer.cpp</file>
+			</folder>
+		</src>
+
+		<include>
+			<path>../../../addons/ofxRemoteCamera/src</path>
+			<path>../../../addons/ofxRemoteCamera/libs/turbo-jpeg/include</path>
+		</include>
+
+		<link>
+			<lib os="win32" compiler="visualstudio">../../../addons/ofxRemoteCamera/libs/turbo-jpeg/lib/vs2010/turbojpeg-static.lib</lib>
+			<lib os="mac"   compiler="xcode">../../../addons/ofxRemoteCamera/libs/turbo-jpeg/lib/osx/libturbojpeg.a</lib>
+		</link>
+	
+	</add>
+</install>
