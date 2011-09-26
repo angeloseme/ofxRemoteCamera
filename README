@@ -1,7 +1,7 @@
 =============================OFXREMOTECAMERA V.0.01================================
 
 
-The ofxRemoteCamera addon is a remote video grabber that enables ofxRemoteCameraServer 
+The ofxRemoteCamera openframeworks addon is a remote video grabber that enables ofxRemoteCameraServer 
 send pixels data through TCP to one or more ofxRemoteCameraClient.  
 Pixels data are resized or compressed using turbo-jpeg library. You can set the ip 
 address/port directly in the code or in the Network_Settings.xml file.
