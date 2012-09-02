@@ -11,7 +11,6 @@
 
 #include "ofxNetwork.h"
 #include "ofxXmlSettings.h"
-#include "ofxOpenCv.h"
 #include "turbojpeg.h"
 
 
