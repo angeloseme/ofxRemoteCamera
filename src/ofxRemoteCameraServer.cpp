@@ -30,8 +30,8 @@ long ofxRemoteCameraServer::compress(unsigned char* inBuffer, unsigned char* out
 	if(getPixelSize(type)==1)
 		jpegsubsamp=TJ_GRAYSCALE;
 	tjCompress(handle,inBuffer, w, pitch, h, getPixelSize(type), outBuffer, &size, jpegsubsamp, jpegQuality, flags);
+	cout << "size:" << size << endl;
 	return size;
-	
 }
 
 //------------------------------------
@@ -185,6 +185,7 @@ void ofxRemoteCameraServer::close(){
 	}
 	for(int clientId = 0; clientId < tcpServer->getLastID(); clientId++)
 		tcpServer->disconnectClient(clientId);
+	tcpServer->close();
 	for (map<string,frame_t>::iterator it=imageMap.begin() ; it != imageMap.end(); it++ )
 		free((*it).second.buffer);
 	imageMap.clear();
