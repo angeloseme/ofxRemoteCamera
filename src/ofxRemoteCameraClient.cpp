@@ -247,14 +247,14 @@ void ofxRemoteCameraClient::draw(){
 void ofxRemoteCameraClient::updateNetworkSettings(){
 	if( XML.loadFile(NETWORK_CONFIG_FILE) ){
 		cout<<"Network_settings.xml loaded!\n";
-		port=XML.getValue("port", DEFAULT_PORT);
-		address=XML.getValue("address", DEFAULT_IP_ADDRESS);
+		port=XML.getValue("client_port", DEFAULT_PORT);
+		address=XML.getValue("client_address", DEFAULT_IP_ADDRESS);
 		
 	}else{
 		cout<<"Unable to load Network_settings.xml check /data/ folder. Loading default values\n";
 		XML.saveFile(NETWORK_CONFIG_FILE);
-		XML.setValue("port", DEFAULT_PORT);
-		XML.setValue("address", DEFAULT_IP_ADDRESS);
+		XML.setValue("client_port", DEFAULT_PORT);
+		XML.setValue("client_address", DEFAULT_IP_ADDRESS);
 		port=DEFAULT_PORT;
 		address=DEFAULT_IP_ADDRESS;
 	}
@@ -267,8 +267,8 @@ void ofxRemoteCameraClient::updateNetworkSettings(){
 void ofxRemoteCameraClient::setNetworkSettings(string address_, int port_){
 	if(! XML.loadFile(NETWORK_CONFIG_FILE) )
 		XML.saveFile(NETWORK_CONFIG_FILE);
-	XML.setValue("port", port_);
-	XML.setValue("address", address_);
+	XML.setValue("client_port", port_);
+	XML.setValue("client_address", address_);
 	XML.saveFile(NETWORK_CONFIG_FILE);
 	address=address_;
 	port=port_;

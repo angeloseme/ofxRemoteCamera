@@ -38,7 +38,7 @@ long ofxRemoteCameraServer::compress(unsigned char* inBuffer, unsigned char* out
 void ofxRemoteCameraServer::setPort(int port_){
 	if(! XML.loadFile(NETWORK_CONFIG_FILE) )
 		XML.saveFile(NETWORK_CONFIG_FILE);
-	XML.setValue("port", port_);
+	XML.setValue("server_port", port_);
 	XML.saveFile(NETWORK_CONFIG_FILE);
 	updateNetworkSettings();
 }
@@ -64,11 +64,11 @@ void ofxRemoteCameraServer::setupTCPServer(){
 void ofxRemoteCameraServer::updateNetworkSettings(){
 	if( XML.loadFile(NETWORK_CONFIG_FILE) ){
 		cout<<"Network_settings.xml loaded!\n";
-		port=XML.getValue("port", DEFAULT_PORT);
+		port=XML.getValue("server_port", DEFAULT_PORT);
 	}else{
 		cout<<"Unable to load Network_settings.xml check data/ folder. Loading default values\n";
 		XML.saveFile(NETWORK_CONFIG_FILE);
-		XML.setValue("port", DEFAULT_PORT);
+		XML.setValue("server_port", DEFAULT_PORT);
 		port=DEFAULT_PORT;
 	}
 	cout << "Using Port: "<<port<<"\n";

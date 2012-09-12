@@ -16,7 +16,7 @@
 
 #define DEFAULT_IP_ADDRESS "127.0.0.1"
 #define DEFAULT_PORT 11899
-#define NETWORK_CONFIG_FILE "Network_settings.xml"
+#define NETWORK_CONFIG_FILE "settings.xml"
 
 #define DATA_SEPARATOR "-"
 #define SIZE_SEPARATOR "x"
