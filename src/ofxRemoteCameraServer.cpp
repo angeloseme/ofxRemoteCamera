@@ -71,7 +71,7 @@ void ofxRemoteCameraServer::updateNetworkSettings(){
 		XML.setValue("server_port", DEFAULT_PORT);
 		port=DEFAULT_PORT;
 	}
-	cout << "Using Port: "<<port<<"\n";
+	cout << "SERVER using local:" << port << "\n";
 	XML.saveFile(NETWORK_CONFIG_FILE);
 }
 

@@ -258,7 +258,7 @@ void ofxRemoteCameraClient::updateNetworkSettings(){
 		port=DEFAULT_PORT;
 		address=DEFAULT_IP_ADDRESS;
 	}
-	cout << "Using Port: "<<port<<" IP Address: "<<address<<"\n";
+	cout << "CLIENT using " << address << ":" << port << "\n";
 	XML.saveFile(NETWORK_CONFIG_FILE);
 }
 
