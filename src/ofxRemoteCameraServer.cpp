@@ -82,7 +82,7 @@ frame_t ofxRemoteCameraServer::parseRequest(string request,unsigned char* &inBuf
 	frame_t toReturn;
 	string auxString=string(request);
 	if(imageMap.count(auxString)==0){
-		toReturn.buffer=inBuffer;
+	/*	toReturn.buffer=inBuffer;
 		toReturn.size=camWidth*camHeight*pixSize;
 		
 		pos=auxString.find(SIZE_SEPARATOR);
@@ -104,11 +104,11 @@ frame_t ofxRemoteCameraServer::parseRequest(string request,unsigned char* &inBuf
 				toReturn.buffer=(unsigned char*)malloc(toReturn.size*sizeof(char));
 				toReturn.size=compress(inBuffer, toReturn.buffer, comp, w, h, type);
 			}
-			else {
+			else {*/
 				toReturn.buffer=inBuffer;
 				toReturn.size=camWidth*camHeight*pixSize;
 				return toReturn; 
-			}
+		//	}
 
 		imageMap[request]=toReturn;
 	}
