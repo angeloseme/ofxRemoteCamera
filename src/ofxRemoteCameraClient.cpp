@@ -168,7 +168,7 @@ void ofxRemoteCameraClient::threadedFunction(){
 				cout << "done\n";
 			}
 			else {
-				cout << "Connected to "<<address<<":"<<port<<"\n";
+				cout << "CLIENT Connected to "<<address<<":"<<port<<"\n";
 			}
 
 		}

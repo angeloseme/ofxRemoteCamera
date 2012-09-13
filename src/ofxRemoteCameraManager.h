@@ -50,7 +50,7 @@ public:
 	}
 	
 	//------------------------------------
-	int  sendData(ofxTCPManager &manager, unsigned char* rawBytes, int numBytes, int maxMillis=1000, bool verbose=false){
+	int  sendData(ofxTCPManager &manager, unsigned char* rawBytes, int numBytes, int maxMillis=1500, bool verbose=false){
 		if(numBytes <= 0){ 
 			cout<<"SEND ERROR: number of bytes has to be positive\n";
 			return -1;
@@ -80,7 +80,7 @@ public:
 	}
 	
 	//------------------------------------
-	int receiveData(ofxTCPManager &manager,unsigned char* buffer,int size, int maxMillis=1000, bool verbose=false){
+	int receiveData(ofxTCPManager &manager,unsigned char* buffer,int size, int maxMillis=1500, bool verbose=false){
 		static int dataReceived=0;
 		int result;
 		int lastTime=ofGetElapsedTimeMillis();
