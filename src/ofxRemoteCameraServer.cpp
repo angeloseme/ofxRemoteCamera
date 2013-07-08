@@ -2,13 +2,12 @@
  *  ofxRemoteCameraServer.cpp
  *  remoteKinectClientExample
  *
- *  Created by Angelo on 08/07/11.
- *  Copyright 2011 __MyCompanyName__. All rights reserved.
+ *  Created by Angelo on 08/07/2011.
+ *  Modified by Wray Bowling on 09/02/2012.
  *
  */
 
 #include "ofxRemoteCameraServer.h"
-
 
 	
 //------------------------------------
@@ -30,16 +29,16 @@ long ofxRemoteCameraServer::compress(unsigned char* inBuffer, unsigned char* out
 	if(getPixelSize(type)==1)
 		jpegsubsamp=TJ_GRAYSCALE;
 	tjCompress(handle,inBuffer, w, pitch, h, getPixelSize(type), outBuffer, &size, jpegsubsamp, jpegQuality, flags);
+	cout << "size:" << size << endl;
 	return size;
-	
 }
 
 //------------------------------------
 void ofxRemoteCameraServer::setPort(int port_){
 	if(! XML.loadFile(NETWORK_CONFIG_FILE) )
-		XML.saveFile(NETWORK_CONFIG_FILE);
-	XML.setValue("port", port_);
-	XML.saveFile(NETWORK_CONFIG_FILE);
+
+	XML.setValue("server_port", port_);
+
 	updateNetworkSettings();
 }
 
@@ -63,27 +62,26 @@ void ofxRemoteCameraServer::setupTCPServer(){
 //------------------------------------
 void ofxRemoteCameraServer::updateNetworkSettings(){
 	if( XML.loadFile(NETWORK_CONFIG_FILE) ){
-		cout<<"Network_settings.xml loaded!\n";
-		port=XML.getValue("port", DEFAULT_PORT);
+		cout<<"settings.xml loaded!\n";
+		port=XML.getValue("server_port", DEFAULT_PORT);
 	}else{
 		cout<<"Unable to load Network_settings.xml check data/ folder. Loading default values\n";
-		XML.saveFile(NETWORK_CONFIG_FILE);
-		XML.setValue("port", DEFAULT_PORT);
+
+		XML.setValue("server_port", DEFAULT_PORT);
 		port=DEFAULT_PORT;
 	}
-	cout << "Using Port: "<<port<<"\n";
-	XML.saveFile(NETWORK_CONFIG_FILE);
+	cout << "SERVER using local:" << port << "\n";
+
 }
 
 //------------------------------------
 frame_t ofxRemoteCameraServer::parseRequest(string request,unsigned char* &inBuffer){
-	IplImage* aux=NULL,*aux1=NULL; 
 	int w,h,type,comp;
 	int pos;
 	frame_t toReturn;
 	string auxString=string(request);
 	if(imageMap.count(auxString)==0){
-		toReturn.buffer=inBuffer;
+	/*	toReturn.buffer=inBuffer;
 		toReturn.size=camWidth*camHeight*pixSize;
 		
 		pos=auxString.find(SIZE_SEPARATOR);
@@ -101,82 +99,16 @@ frame_t ofxRemoteCameraServer::parseRequest(string request,unsigned char* &inBuf
 		pos=auxString.find(DATA_SEPARATOR);
 		type=min((int)imageType,(int)max((int)OF_IMAGE_GRAYSCALE,ofToInt(auxString.substr(0,pos))));
 		
-		
-		
-		//CHANGING WIDTH, HEIGHT AND IMAGE TYPE WITH OPENCV.
-		//NO OVERSCALE (ex. 320x240 -> 640x480) AND 
-		//DUMMY TYPE CONVERSION (ex. GL_RGB -> GL_RGBA) ARE NOT ALLOWED.
-		
-		if(w<camWidth || h<camHeight || type < imageType){
-			aux= cvCreateImage( cvSize(camWidth,camHeight), IPL_DEPTH_8U, pixSize);
-			memcpy(aux->imageData, inBuffer, camWidth*camHeight*pixSize);
-			if(w<camWidth || h<camHeight){ 
-				aux1=cvCreateImage( cvSize(w,h), IPL_DEPTH_8U, pixSize);
-				cvResize( aux, aux1);
-				cvReleaseImage(&aux);
-				aux=aux1;
-				toReturn.size=w*h*pixSize;
-			}
-			if (type!=imageType) {
-				switch (imageType){
-					case OF_IMAGE_GRAYSCALE://DUMMY CASE
-						type=OF_IMAGE_GRAYSCALE;
-						break;
-					case OF_IMAGE_COLOR:
-						if(type == OF_IMAGE_GRAYSCALE){
-								aux1=cvCreateImage( cvSize(w,h), IPL_DEPTH_8U,1);
-								cvCvtColor( aux, aux1, CV_RGB2GRAY );
-								cvReleaseImage(&aux);
-								aux=aux1;
-								toReturn.size=w*h;
-						}else {
-							
-							type=OF_IMAGE_COLOR;
-						}
-						break;
-					case OF_IMAGE_COLOR_ALPHA:
-						switch (type) {
-							case OF_IMAGE_COLOR:
-								aux1=cvCreateImage( cvSize(w,h), IPL_DEPTH_8U,3);
-								cvCvtColor( aux, aux1, CV_RGBA2RGB );
-								cvReleaseImage(&aux);
-								aux=aux1;
-								toReturn.size=w*h*3;
-								break;
-							case OF_IMAGE_GRAYSCALE:
-								aux1=cvCreateImage( cvSize(w,h), IPL_DEPTH_8U,1);
-								cvCvtColor( aux, aux1, CV_RGBA2GRAY );
-								cvReleaseImage(&aux);
-								aux=aux1;
-								toReturn.size=w*h;
-								break;
-							default:
-								type=OF_IMAGE_COLOR_ALPHA;
-								break;
-						}
-						break;
-				}
-			}
-			toReturn.buffer=(unsigned char*)malloc(toReturn.size*sizeof(char));
-			if(comp<NO_COMPRESSION){
-				toReturn.size=compress((unsigned char*)aux->imageData, toReturn.buffer, comp, w, h, type);
-			}else {
-				memcpy(toReturn.buffer, aux->imageData, toReturn.size);
-			}
-			cvReleaseImage(&aux);
-		}
-		else {
 			if(comp<NO_COMPRESSION){
 				toReturn.buffer=(unsigned char*)malloc(toReturn.size*sizeof(char));
 				toReturn.size=compress(inBuffer, toReturn.buffer, comp, w, h, type);
 			}
-			else {
+			else {*/
 				toReturn.buffer=inBuffer;
 				toReturn.size=camWidth*camHeight*pixSize;
 				return toReturn; 
-			}
+		//	}
 
-		}
 		imageMap[request]=toReturn;
 	}
 	else{
@@ -252,6 +184,7 @@ void ofxRemoteCameraServer::close(){
 	}
 	for(int clientId = 0; clientId < tcpServer->getLastID(); clientId++)
 		tcpServer->disconnectClient(clientId);
+	tcpServer->close();
 	for (map<string,frame_t>::iterator it=imageMap.begin() ; it != imageMap.end(); it++ )
 		free((*it).second.buffer);
 	imageMap.clear();
